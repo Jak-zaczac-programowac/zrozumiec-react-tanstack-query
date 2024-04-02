@@ -1,0 +1,24 @@
+form {
+    margin-top: 20px;
+    padding: 20px;
+    border: solid 1px;
+}
+
+form > div {
+    display: flex;
+    gap: 10px;
+    margin-right: 20px;
+}
+
+button {
+    padding: 10px;
+}
+
+form button {
+    margin-top: 10px;
+}
+
+input {
+    padding: 10px 20px;
+    width: 100%;
+}
