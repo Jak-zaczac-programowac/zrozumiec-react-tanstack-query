@@ -1,21 +1,22 @@
 .container {
     display: grid;
-    grid-template-rows: auto auto auto; /* Creates three rows: two for the full-width items and one for the two-column layout */
-    grid-template-columns: 300px auto; /* Defines two columns for the third row: one fixed-width and one flexible */
-    gap: 10px; /* Optional: Adds some space between grid items */
+    grid-template-rows: auto auto auto;
+    grid-template-columns: 300px auto;
+    gap: 10px;
 }
 
 .container > div:nth-child(1),
-.container > div:nth-child(2) {
-    grid-column: 1 / -1; /* Makes these items span all columns, effectively taking full width */
+.container > div:nth-child(2),
+.container > p:nth-child(2) {
+    grid-column: 1 / -1;
 }
 
 .container > div:nth-child(3) {
-    grid-row: 3; /* Positions in the third row */
-    grid-column: 1; /* First column of the third row */
+    grid-row: 3;
+    grid-column: 1;
 }
 
 .container > div:nth-child(4) {
-    grid-row: 3; /* Also positions in the third row */
-    grid-column: 2; /* Second column of the third row, taking up remaining space */
+    grid-row: 3;
+    grid-column: 2;
 }
