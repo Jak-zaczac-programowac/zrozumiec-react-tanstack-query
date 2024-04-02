@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import "./Form.css";
 
 export function Form() {
@@ -8,15 +9,55 @@ export function Form() {
     const [email, setEmail] = useState("");
     const [age, setAge] = useState("");
 
+    const queryClient = useQueryClient();
+
+    const { mutate, isPending } = useMutation({
+        mutationFn: (data) =>
+            fetch("http://localhost:3000/people", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            }).then((res) => {
+                if (res.ok) {
+                    return res.json();
+                }
+
+                throw new Error("Błąd zapisu");
+            }),
+        onSuccess: (res) => {
+            const peopleData = queryClient.getQueryData(["people"]);
+            queryClient.setQueryData(["people"], [...peopleData, res]);
+        },
+    });
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log({ name, email, age });
+        mutate(
+            { name, email, age },
+            {
+                onError: (error) => alert(error),
+                onSettled: () => {
+                    setIsFormShown(false);
+
+                    setName("");
+                    setEmail("");
+                    setAge("");
+                },
+            }
+        );
     };
+
+    if (isPending) {
+        return <p>Zapisywanie...</p>;
+    }
 
     return (
         <div>
             {isFormShown ? (
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} autoComplete="false">
                     <div>
                         <input
                             type="text"

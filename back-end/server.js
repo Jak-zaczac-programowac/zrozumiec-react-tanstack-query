@@ -6,7 +6,6 @@ const middlewares = jsonServer.defaults();
 
 server.use(cors());
 server.use(middlewares);
-server.use(router);
 
 server.use((req, res, next) => {
     req.db = router.db;
@@ -18,7 +17,7 @@ server.get("/people", (req, res) => {
     const filteredPeople = people.map(({ id, name }) => ({ id, name }));
     res.jsonp(filteredPeople);
 });
-
+server.use(router);
 server.listen(3000, () => {
     console.log("JSON Server is running");
 });
